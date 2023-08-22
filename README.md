@@ -1,11 +1,18 @@
 # Calibrated Lipschitz-Margin Loss (CLL)
 Official repository for "Certified Robust Models with Slack Control and Large Lipschitz Constants", published at GCPR 2023
 
-This repository integrates our proposed CLL-loss into 4 different code bases. These base repositories can be found here:
+This repository integrates our proposed CLL-loss into 4 different code bases. These base repositories don't need to be cloned, but can be found here:
 - [GloRo (Globally-Robust Neural Networks)](https://github.com/klasleino/gloro/tree/master)
 - [SOC (Skew Orthogonal Convolutions)](https://github.com/singlasahil14/SOC/tree/main)
 - [CPL (Convex Potential Layers)](https://github.com/MILES-PSL/Convex-Potential-Layer/tree/main)
 - [SLL (SDP-based Lipschitz Layers)](https://github.com/araujoalexandre/Lipschitz-SLL-Networks/tree/main)
+
+
+## Requirements
+- python 3.8
+- pytorch 1.6.0
+- tensorboard
+- apex
 
 
 ## On the basis of [GloRo](https://github.com/klasleino/gloro/tree/master) (4C3F, 6C2F, 8C2F).
