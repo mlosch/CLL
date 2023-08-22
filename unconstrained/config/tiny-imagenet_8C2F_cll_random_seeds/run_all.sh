@@ -1,0 +1,9 @@
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed1.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed2.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed3.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed4.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed5.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed6.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed7.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed8.yaml
+python -m tool.train --config config/tiny-imagenet_8C2F_cll_random_seeds/8C2F_cll_eps1.0_p2.5e-2_globallipdecay1e-3_maxmin_adamw_bs128_kaiming_wd0_01data_lr2.5e-4_ep800_lobo_seed9.yaml

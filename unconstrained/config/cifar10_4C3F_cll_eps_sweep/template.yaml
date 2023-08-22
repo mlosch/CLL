@@ -1,0 +1,205 @@
+manual_seed: 123
+
+Distributed:
+  dist_url: tcp://127.0.0.1:6789
+  dist_backend: 'nccl'
+  multiprocessing_distributed: False
+  world_size: 1
+  rank: 0
+
+training_data:
+  type: 'torchvision.datasets.CIFAR10'
+  kwargs:
+    root: 'data/'
+    train: True
+    download: True
+  transformation:
+    crop:
+      type: 'torchvision.transforms.RandomCrop'
+      args: [32, 4]  #size, padding
+    flip: 
+      type: 'torchvision.transforms.RandomHorizontalFlip'
+    colorjitter:
+      type: 'torchvision.transforms.ColorJitter'
+      args: [.25, .25, .25]
+    rotation:
+      type: 'torchvision.transforms.RandomRotation'
+      args: [2]
+    totensor:
+      type: 'torchvision.transforms.ToTensor'
+
+validation_data:
+  type: 'torchvision.datasets.CIFAR10'
+  kwargs:
+    root: 'data/'
+    train: False
+  transformation:
+    totensor:
+      type: 'torchvision.transforms.ToTensor'
+
+
+architecture:
+  type: 'LipschitzModel'
+  kwargs:
+      p: 2
+      classifier_layer: 'fc'
+      use_softmax: False
+      ignore_batchnorm: False
+      calibrate_outputs: False
+
+  initialization:
+    conv: 'kaiming'
+    linear: 'kaiming'
+
+  layers:
+    conv1: 
+      type: 'nn.Conv2d'
+      args: [3, 32, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu1:
+      type: 'MaxMin'
+      num_units: 16
+    conv2: 
+      type: 'nn.Conv2d'
+      args: [32, 32, 3]
+      stride: 2
+      padding: 1
+      bias: True
+    relu2:
+      type: 'MaxMin'
+      num_units: 16
+    conv3: 
+      type: 'nn.Conv2d'
+      args: [32, 64, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu3:
+      type: 'MaxMin'
+      num_units: 32
+    conv4: 
+      type: 'nn.Conv2d'
+      args: [64, 64, 3]
+      stride: 2
+      padding: 1
+      bias: True
+    relu4:
+      type: 'MaxMin'
+      num_units: 32
+    flatten:
+      type: 'Flatten'
+      dim: 1
+    fc1:
+      type: 'nn.Linear'
+      args: [4096, 512]
+    fc1_relu:
+      type: 'MaxMin'
+      num_units: 256
+    fc2:
+      type: 'nn.Linear'
+      args: [512, 512]
+    fc2_relu:
+      type: 'MaxMin'
+      num_units: 256
+    fc:
+      type: 'nn.Linear'
+      args: [512, 10]
+
+loss:
+  lipdecay:
+    type: 'GlobalLipschitzDecay'
+    lambda_: 1.e-4
+    pow: 2.0
+    num_iter: 5
+
+  cll:
+    type: 'CLL'
+    num_iter: 0
+    MATCH_LAYER_output_module: 'fc'
+    detach_lipschitz_computer: True
+    norm_p : 2
+    K_scale: 1.0
+    min_class_distance: {dist}
+    err_quantile: 3.e-1
+    add_epsilon: {delta}
+    dist_type: 'logistic'
+
+metrics:
+  cleanacc:
+    type: 'Accuracy'
+    topk: 1
+  robustacc0_141:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.141176470588235
+    data_std: [1,1,1]
+  robustacc{eps_underscore}:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: {eps}
+    data_std: [1,1,1]
+  logitdist:
+    type: 'LogitDistance'
+  marginratio:
+    type: 'MarginRatio'
+    data_std: [1,1,1]
+  marginratiod:
+    type: 'MarginRatioDistribution'
+    data_std: [1, 1, 1]
+
+
+evaluations:
+  auto_attack:
+    type: 'AutoAttackAccuracy'
+    eval_freq: 100
+    robust_logit_index: 
+    batch_size: 1000
+    n_samples: 1000
+    attacks_to_run: ['apgd-ce', 'apgd-t']
+    data_mean: [0, 0, 0]
+    data_std: [1,1,1]
+    #epsilons: [0.3, 0.5, 1.0, 2.0]
+    epsilons: [0.141176470588235, {eps}]
+
+  lip_lower_bound:
+    type: 'LowerLipschitzBoundEstimation'
+    eval_freq: 50
+    robust_logit_index: 
+    dataset: train
+    data_mean: [0, 0, 0]
+    data_std: [1, 1, 1]
+    n_samples: 4000
+    batch_size: 8000
+    max_iter: 1000
+    # input_norm_correction: 0.2
+    optimizer_cfg:
+      type: 'Adam'
+      lr: 3.e-4
+      weight_decay: 0
+
+training:
+  epochs: 801
+  batch_size: 128  # batch size for training
+  
+  sync_bn: True
+  workers: 4  # data loader workers
+  train_gpu: [0]
+
+  print_freq: 50
+  save_freq: 50
+  save_path: exp/cifar10/cifar10_4C3F_cll_eps_sweep/$MODELNAME/model
+
+  optimizer:
+    type: 'AdamW'
+    lr: 1.e-3
+    weight_decay: 0 #3.0
+  lrscheduler:
+    type: MultiStepLR
+    milestones: [156000, 234000, 304200]  # epoch 100 and 150
+    gamma: 0.1
+
+validate:
+  batch_size: 1000 # batch size for validation during training, memory and speed tradeoff
+  print_freq: 10

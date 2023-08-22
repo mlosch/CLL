@@ -1,0 +1,7 @@
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps0.15_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps0.25_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps0.50_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps0.75_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps1.00_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps1.25_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/cifar10_4C3F_cll_eps_sweep/4C3F_cll_eps1.38_p3e-1_globallipdecay1e-4_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml

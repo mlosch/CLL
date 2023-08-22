@@ -1,0 +1,5 @@
+python train_robust.py --conv-layer soc --activation hh1 --dataset tinyimagenet --data-dir data/tiny-imagenet-200 --gamma 0.0 --block-size 2 --out-dir tinyimagenet_SOC_gamma_sweep/LipConvNet --lln
+python train_robust.py --conv-layer soc --activation hh1 --dataset tinyimagenet --data-dir data/tiny-imagenet-200 --gamma 0.05 --block-size 2 --out-dir tinyimagenet_SOC_gamma_sweep/LipConvNet --lln
+python train_robust.py --conv-layer soc --activation hh1 --dataset tinyimagenet --data-dir data/tiny-imagenet-200 --gamma 0.15 --block-size 2 --out-dir tinyimagenet_SOC_gamma_sweep/LipConvNet --lln
+python train_robust.py --conv-layer soc --activation hh1 --dataset tinyimagenet --data-dir data/tiny-imagenet-200 --gamma 0.3 --block-size 2 --out-dir tinyimagenet_SOC_gamma_sweep/LipConvNet --lln
+python train_robust.py --conv-layer soc --activation hh1 --dataset tinyimagenet --data-dir data/tiny-imagenet-200 --gamma 0.4 --block-size 2 --out-dir tinyimagenet_SOC_gamma_sweep/LipConvNet --lln

@@ -1,0 +1,9 @@
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed1/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed2/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed3/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed4/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed5/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed6/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed7/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed8/
+python eval_lobo.py --data_dir ./data/ --dataset cifar100 --model-name xlarge --train_dir trained_models/cll_eps1.0_p0.003_lam1e-5_xl_model_seed9/

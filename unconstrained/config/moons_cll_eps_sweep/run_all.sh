@@ -1,0 +1,4 @@
+python tool/train.py --config config/moons_cll_eps_sweep/5hid_cll_eps0.10_p1e-3to1e-15p50_globallipdecay1e-6pow2_maxmin_adamw_bs100_kaiming_wd0_01data_lr1e-3_ep1000_lrdecay.yaml
+python tool/train.py --config config/moons_cll_eps_sweep/5hid_cll_eps0.15_p1e-3to1e-15p50_globallipdecay1e-6pow2_maxmin_adamw_bs100_kaiming_wd0_01data_lr1e-3_ep1000_lrdecay.yaml
+python tool/train.py --config config/moons_cll_eps_sweep/5hid_cll_eps0.20_p1e-3to1e-15p50_globallipdecay1e-6pow2_maxmin_adamw_bs100_kaiming_wd0_01data_lr1e-3_ep1000_lrdecay.yaml
+python tool/train.py --config config/moons_cll_eps_sweep/5hid_cll_eps0.25_p1e-3to1e-15p50_globallipdecay1e-6pow2_maxmin_adamw_bs100_kaiming_wd0_01data_lr1e-3_ep1000_lrdecay.yaml

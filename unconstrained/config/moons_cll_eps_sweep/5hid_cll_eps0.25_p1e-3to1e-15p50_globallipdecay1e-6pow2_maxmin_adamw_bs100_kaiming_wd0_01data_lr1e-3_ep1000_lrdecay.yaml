@@ -1,0 +1,188 @@
+manual_seed: 123
+
+Distributed:
+  dist_url: tcp://127.0.0.1:6789
+  dist_backend: 'nccl'
+  multiprocessing_distributed: False
+  world_size: 1
+  rank: 0
+
+training_data:
+  type: 'Moons2D'
+  kwargs:
+    nsamples: 2000
+    noise: 0.0
+    uniform_noise: 0.1
+  transformation:
+    totensor:
+      type: 'torchvision.transforms.ToTensor'
+
+validation_data:
+  type: 'Moons2D'
+  kwargs:
+    nsamples: 20000
+    noise: 0.0
+    uniform_noise: 0.1
+  transformation:
+    totensor:
+      type: 'torchvision.transforms.ToTensor'
+
+
+architecture:
+  type: 'LipschitzModel'
+  kwargs:
+      p: 2
+      classifier_layer: 'fc'
+      use_softmax: False
+      ignore_batchnorm: False
+      calibrate_outputs: False
+
+  initialization:
+    conv: 'kaiming'
+    linear: 'kaiming'
+
+  layers:
+    fc1:
+      type: 'nn.Linear'
+      args: [2, 10]
+    fc1_relu:
+      type: 'MaxMin'
+      num_units: 5
+    fc2:
+      type: 'nn.Linear'
+      args: [10, 20]
+    fc2_relu:
+      type: 'MaxMin'
+      num_units: 10
+    fc3:
+      type: 'nn.Linear'
+      args: [20, 40]
+    fc3_relu:
+      type: 'MaxMin'
+      num_units: 20
+    fc4:
+      type: 'nn.Linear'
+      args: [40, 40]
+    fc4_relu:
+      type: 'MaxMin'
+      num_units: 20
+    fc5:
+      type: 'nn.Linear'
+      args: [40, 20]
+    fc5_relu:
+      type: 'MaxMin'
+      num_units: 10
+    fc6:
+      type: 'nn.Linear'
+      args: [20, 10]
+    fc6_relu:
+      type: 'MaxMin'
+      num_units: 5
+    fc:
+      type: 'nn.Linear'
+      args: [10, 2]
+
+loss:
+  lipdecay:
+    type: 'GlobalLipschitzDecay'
+    lambda_: 1.e-6
+    pow: 2.0
+    num_iter: 5
+  knll:
+    type: 'KeepLipschitzMarginCELossV2'
+    num_iter: 0
+    MATCH_LAYER_output_module: 'fc'
+    detach_lipschitz_computer: True
+    detach_K: True
+    detach_Kfc: True
+    norm_p : 2
+    K_scale: 1.0
+    min_class_distance: 0.5
+    err_quantile: 
+      type: 'scheduler.PolynomialScheduler'
+      start_val: 1.e-3
+      end_val: 1.e-15
+      power: 50.0
+    add_epsilon: 0.25
+    add_epsilon_one_sided: True
+    dist_type: 'logistic'
+
+metrics:
+  cleanacc:
+    type: 'Accuracy'
+    topk: 1
+  robustacc0_25:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.25
+    data_std: [1,1,1]
+  robustacc0_50:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.5
+    data_std: [1,1,1]
+  logitdist:
+    type: 'LogitDistance'
+  marginratio_avg:
+    type: 'MarginRatio'
+    data_std: [1,1,1]
+  marginratio_min:
+    type: 'MarginRatio'
+    data_std: [1,1,1]
+    reduce: 'min'
+  marginratiod:
+    type: 'MarginRatioDistribution'
+    data_std: [1, 1, 1]
+
+
+evaluations:
+  decision_boundary:
+    type: 'DecisionBoundaryPlot'
+    eval_freq: 100
+    robust_logit_index:
+    xlim: [-1.5, 2.5]
+    ylim: [-1.0, 1.5]
+    nsamples: 1000000
+    pairwise: True
+    levels: [-0.25, 0.00, 0.25]
+    save_path: exp/moons/moons_cll_eps_sweep/$MODELNAME/
+
+  # lip_lower_bound:
+  #   type: 'LowerLipschitzBoundEstimation'
+  #   eval_freq: 100
+  #   robust_logit_index: 
+  #   data_mean: [0, 0, 0]
+  #   data_std: [1, 1, 1]
+  #   n_samples: 2000
+  #   batch_size: 4000
+  #   max_iter: 1000
+  #   # input_norm_correction: 0.2
+  #   optimizer_cfg:
+  #     type: 'Adam'
+  #     lr: 3.e-4
+  #     weight_decay: 0
+
+training:
+  epochs: 1001
+  batch_size: 100  # batch size for training
+  
+  sync_bn: True
+  workers: 4  # data loader workers
+  train_gpu: [0]
+
+  print_freq: 10
+  save_freq: 2000 # never saves
+  save_path: exp/moons/moons_cll_eps_sweep/$MODELNAME/model
+
+  optimizer:
+    type: 'AdamW'
+    lr: 1.e-3
+    weight_decay: 0 #5.e-4
+  lrscheduler:
+    type: MultiStepLR
+    milestones: [8000] #1200, 1600, 1950]  # epoch 100 and 150
+    gamma: 0.1
+
+validate:
+  batch_size: 10000 # batch size for validation during training, memory and speed tradeoff
+  print_freq: 1

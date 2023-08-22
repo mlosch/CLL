@@ -1,0 +1,249 @@
+manual_seed: 123
+
+Distributed:
+  dist_url: tcp://127.0.0.1:6789
+  dist_backend: 'nccl'
+  multiprocessing_distributed: False
+  world_size: 1
+  rank: 0
+
+training_data:
+  type: 'TinyImageNetDataset'
+  kwargs:
+    root_dir: 'data/tiny-imagenet-200'
+    mode: 'train'
+    preload: False
+  transformation:
+    crop:
+      type: 'torchvision.transforms.RandomCrop'
+      args: [64, 8]  #size, padding
+    flip: 
+      type: 'torchvision.transforms.RandomHorizontalFlip'
+    colorjitter:
+      type: 'torchvision.transforms.ColorJitter'
+      args: [.25, .25, .25]
+    rotation:
+      type: 'torchvision.transforms.RandomRotation'
+      args: [2]
+    totensor:
+      type: 'torchvision.transforms.ToTensor'
+
+validation_data:
+  type: 'TinyImageNetDataset'
+  kwargs:
+    root_dir: 'data/tiny-imagenet-200'
+    mode: 'val'
+    preload: False
+  transformation:
+    totensor:
+      type: 'torchvision.transforms.ToTensor'
+
+
+architecture:
+  type: 'LipschitzModel'
+  kwargs:
+      p: 2
+      classifier_layer: 'fc'
+      use_softmax: False
+      ignore_batchnorm: False
+      calibrate_outputs: False
+
+  initialization:
+    conv: 'kaiming'
+    linear: 'kaiming'
+
+  layers:
+    conv1: 
+      type: 'nn.Conv2d'
+      args: [3, 64, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu1:
+      type: 'MaxMin'
+      num_units: 32
+    conv2: 
+      type: 'nn.Conv2d'
+      args: [64, 64, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu2:
+      type: 'MaxMin'
+      num_units: 32
+    conv3: 
+      type: 'nn.Conv2d'
+      args: [64, 64, 4]
+      stride: 2
+      padding: 0
+      bias: True
+    relu3:
+      type: 'MaxMin'
+      num_units: 32
+    conv4: 
+      type: 'nn.Conv2d'
+      args: [64, 128, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu4:
+      type: 'MaxMin'
+      num_units: 64
+    conv5: 
+      type: 'nn.Conv2d'
+      args: [128, 128, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu5:
+      type: 'MaxMin'
+      num_units: 64
+    conv6: 
+      type: 'nn.Conv2d'
+      args: [128, 128, 4]
+      stride: 2
+      padding: 0
+      bias: True
+    relu6:
+      type: 'MaxMin'
+      num_units: 64
+    conv7: 
+      type: 'nn.Conv2d'
+      args: [128, 256, 3]
+      stride: 1
+      padding: 1
+      bias: True
+    relu7:
+      type: 'MaxMin'
+      num_units: 128
+    conv8: 
+      type: 'nn.Conv2d'
+      args: [256, 256, 4]
+      stride: 2
+      padding: 0
+      bias: True
+    relu8:
+      type: 'MaxMin'
+      num_units: 128
+    flatten:
+      type: 'Flatten'
+      dim: 1
+    fc1:
+      type: 'nn.Linear'
+      args: [9216, 256]
+    relu9:
+      type: 'MaxMin'
+      num_units: 128
+    fc:
+      type: 'nn.Linear'
+      args: [256, 200]
+
+loss:
+  lipdecay:
+    type: 'GlobalLipschitzDecay'
+    lambda_: 1.00e-05
+    pow: 2.0
+    num_iter: 5
+
+  knll:
+    type: 'KeepLipschitzMarginCELossV2'
+    num_iter: 0
+    MATCH_LAYER_output_module: 'fc'
+    detach_lipschitz_computer: True
+    norm_p : 2
+    K_scale: 
+      type: 'scheduler.PolynomialScheduler'
+      start_val: 0.01
+      end_val: 1.0
+      power: 10.0
+    min_class_distance: 0.3
+    err_quantile: 7.00e-01
+    add_epsilon: 0.15
+    dist_type: 'logistic'
+    add_epsilon_one_sided: False
+
+metrics:
+  cleanacc:
+    type: 'Accuracy'
+    topk: 1
+  robustacc0_141:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.141176470588235
+    data_std: [1,1,1]
+  robustacc0_28:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.282352941176471
+    data_std: [1,1,1]
+  robustacc0_42:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.423529411764706
+    data_std: [1,1,1]
+  robustacc0_15:
+    type: 'RobustAccuracy'
+    MATCH_LAYER_output_module: 'fc'
+    epsilon: 0.15
+    data_std: [1,1,1]
+  logitdist:
+    type: 'LogitDistance'
+  marginratio:
+    type: 'MarginRatio'
+    data_std: [1,1,1]
+  marginratiod:
+    type: 'MarginRatioDistribution'
+    data_std: [1, 1, 1]
+
+
+evaluations:
+  auto_attack:
+    type: 'AutoAttackAccuracy'
+    eval_freq: 200
+    robust_logit_index: 
+    batch_size: 1000
+    n_samples: 1000
+    attacks_to_run: ['apgd-ce', 'apgd-t']
+    data_mean: [0, 0, 0]
+    data_std: [1,1,1]
+    epsilons: [0.141176470588235, 0.5]
+
+  lip_lower_bound:
+    type: 'LowerLipschitzBoundEstimation'
+    eval_freq: 200
+    robust_logit_index: 
+    dataset: train
+    data_mean: [0, 0, 0]
+    data_std: [1, 1, 1]
+    n_samples: 4000
+    batch_size: 1000
+    max_iter: 1000
+    optimizer_cfg:
+      type: 'Adam'
+      lr: 3.e-4
+      weight_decay: 0
+
+training:
+  epochs: 801
+  batch_size: 256  # batch size for training
+  
+  sync_bn: True
+  workers: 4  # data loader workers
+  train_gpu: [0]
+
+  print_freq: 50
+  save_freq: 50
+  save_path: exp/tiny-imagenet/8C2F_cll_slack_sweep/$MODELNAME/model
+
+  optimizer:
+    type: 'AdamW'
+    lr: 2.5e-4
+    weight_decay: 0 #3.0
+  lrscheduler:
+    type: MultiStepLR
+    milestones: [156000, 234000, 304200]  # epoch 100 and 150
+    gamma: 0.1
+
+validate:
+  batch_size: 1000 # batch size for validation during training, memory and speed tradeoff
+  print_freq: 10

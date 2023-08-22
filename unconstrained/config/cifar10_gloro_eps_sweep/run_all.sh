@@ -1,0 +1,7 @@
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to0.15p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to0.25p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to0.50p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to0.75p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to1.00p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to1.25p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
+python tool/train.py --config config/gloro_eps_sweep/4C3F_gloroeps0to1.38p5_maxmin_adamw_bs128_kaiming_wd0_01data_lr1e-3_ep800_lobo.yaml
