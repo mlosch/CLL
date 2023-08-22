@@ -1,7 +1,7 @@
 # Calibrated Lipschitz-Margin Loss (CLL)
 Official repository for "Certified Robust Models with Slack Control and Large Lipschitz Constants", published at GCPR 2023
 
-## On the basis of GloRo (4C3F, 6C2F, 8C2F)
+## On the basis of GloRo (4C3F, 6C2F, 8C2F). Original repository here: [GloRo](https://github.com/klasleino/gloro/tree/master)
 
 - To run main experiments on 4C3F for GloRo and CLL
   
@@ -43,7 +43,7 @@ Official repository for "Certified Robust Models with Slack Control and Large Li
 - Power iteration convergence after each training epoch is defined in `unconstrained/model/lipschitz_model.py`:
   - `class LipschitzModel`, function `post_training_hook()`
 
-## On the basis of SOC (LipConv)
+## On the basis of SOC (LipConv). Original repository here: [SOC](https://github.com/singlasahil14/SOC/tree/main)
 
 - To train CLL on CIFAR-10
 
@@ -58,7 +58,7 @@ Official repository for "Certified Robust Models with Slack Control and Large Li
   `cd soc; bash train_soc_on_tinyimagenet.sh`
 
 
-## On the basis of CPL (XL)
+## On the basis of CPL (XL). Original repository here: [CPL](https://github.com/MILES-PSL/Convex-Potential-Layer/tree/main)
 
 - To train/evaluate (CPL-)XL with CLL on CIFAR-10/CIFAR-100:
 
@@ -67,7 +67,7 @@ Official repository for "Certified Robust Models with Slack Control and Large Li
   `cd cpl; bash train_CLL_on_cifar100.sh`
 
 
-## On the basis of SLL (XL)
+## On the basis of SLL (XL). Original repository here: [SLL](https://github.com/araujoalexandre/Lipschitz-SLL-Networks/tree/main)
 
 - To train/evaluate (SLL-)XL with CLL on CIFAR-100:
 
