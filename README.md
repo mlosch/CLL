@@ -15,7 +15,7 @@ This repository integrates our proposed CLL-loss into 4 different code bases. Th
 - apex
 
 
-## On the basis of [GloRo](https://github.com/klasleino/gloro/tree/master) (4C3F, 6C2F, 8C2F).
+## Reproducing Results - On the basis of [GloRo](https://github.com/klasleino/gloro/tree/master) (4C3F, 6C2F, 8C2F).
 
 - To run main experiments on 4C3F for GloRo and CLL
   
@@ -57,7 +57,7 @@ This repository integrates our proposed CLL-loss into 4 different code bases. Th
 - Power iteration convergence after each training epoch is defined in `unconstrained/model/lipschitz_model.py`:
   - `class LipschitzModel`, function `post_training_hook()`
 
-## On the basis of [SOC](https://github.com/singlasahil14/SOC/tree/main) (LipConv).
+## Reproducing Results - On the basis of [SOC](https://github.com/singlasahil14/SOC/tree/main) (LipConv).
 
 - To train CLL on CIFAR-10
 
@@ -72,7 +72,7 @@ This repository integrates our proposed CLL-loss into 4 different code bases. Th
   `cd soc; bash train_soc_on_tinyimagenet.sh`
 
 
-## On the basis of [CPL](https://github.com/MILES-PSL/Convex-Potential-Layer/tree/main) (XL).
+## Reproducing Results - On the basis of [CPL](https://github.com/MILES-PSL/Convex-Potential-Layer/tree/main) (XL).
 
 - To train/evaluate (CPL-)XL with CLL on CIFAR-10/CIFAR-100:
 
@@ -81,7 +81,7 @@ This repository integrates our proposed CLL-loss into 4 different code bases. Th
   `cd cpl; bash train_CLL_on_cifar100.sh`
 
 
-## On the basis of [SLL](https://github.com/araujoalexandre/Lipschitz-SLL-Networks/tree/main) (XL).
+## Reproducing Results - On the basis of [SLL](https://github.com/araujoalexandre/Lipschitz-SLL-Networks/tree/main) (XL).
 
 - To train/evaluate (SLL-)XL with CLL on CIFAR-100:
 
