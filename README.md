@@ -1,9 +1,11 @@
 # Calibrated Lipschitz-Margin Loss (CLL)
-Official repository for "Certified Robust Models with Slack Control and Large Lipschitz Constants", to be published at GCPR 2023 (in press).
+Official repository for "Certified Robust Models with Slack Control and Large Lipschitz Constants", Accepted at GCPR 2023.
+<BR>Accessible at arXiv: [arxiv.org/abs/2309.06166](http://arxiv.org/abs/2309.06166)
+<BR>Poster: [Poster_GCPR_2023.pdf](https://github.com/mlosch/CLL/blob/main/Poster_GCPR_23.pdf)
 
-Accessible at arXiv: [arxiv.org/abs/2309.06166](http://arxiv.org/abs/2309.06166)
-
-Poster: [Poster_GCPR_2023.pdf](https://github.com/mlosch/CLL/blob/main/Poster_GCPR_23.pdf)
+| ![Teaser figure](https://github.com/mlosch/CLL/blob/main/teaser_fig.png) | 
+|:--:| 
+| **In a Nutshell:** Existing Lipschitz margin methods control the Lipschitz constant K to be low, yet we observe decision functions becoming overly smooth when K is too low (left) – impairing accuracy. Our Calibrated Lipschitz-Margin loss (CLL) provides slack control, which we show is inversely proportional to K. We can control K to be high and observe improved clean and robust accuracies (right). Incorrect or not robust samples marked red. |
 
 This repository integrates our proposed CLL-loss into 4 different code bases. These base repositories don't need to be cloned, but can be found here:
 - [GloRo (Globally-Robust Neural Networks)](https://github.com/klasleino/gloro/tree/master)
