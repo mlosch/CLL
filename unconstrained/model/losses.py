@@ -77,7 +77,6 @@ class GloroLoss(scheduler.ScheduledModule):
         else:
             return 'GloroLoss(eps={:.2f}, num_iter={})'.format(self.epsilon, self.num_iter)
 
-
 class LipschitzCrossEntropyLoss(scheduler.ScheduledModule):
     def __init__(self, lipschitz_computer, num_iter, output_module, norm_p, 
         K_scale=1.0, alpha=1.0, detach_lipschitz_computer=True, detach_K=True, detach_Kfc=True, use_Kmax=False, 
@@ -340,6 +339,10 @@ class KeepLipschitzMarginCELoss(LipschitzCrossEntropyLoss):
         if self.freeze_logit_idx is not None:
             prediction[:, 0] = prediction[:, 0].detach()
         return super(KeepLipschitzMarginCELoss, self).forward(prediction, target)
+
+
+class KeepLipschitzMarginCELossV2(KeepLipschitzMarginCELoss):
+    pass
 
 
 # class KeepLipschitzMarginBCELoss(KeepLipschitzMarginCELoss):
