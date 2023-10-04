@@ -520,9 +520,7 @@ class DecisionBoundaryPlot(EvaluationBase):
             axes[i].text(self.attr_vra_pos[0], self.attr_vra_pos[1], '$VRA: {:.1f}\%$'.format(vra*100.0), ha=self.attr_vra_ha, fontsize=self.attr_vra_fontsize)
             # axes[i].text(self.attr_K_pos[0], self.attr_K_pos[1], '$K_{{{},{}}}={:.1f}$'.format(key[0], key[1], Kij[key[0], key[1]]), ha=self.attr_K_ha, fontsize=self.attr_K_fontsize)
             Kh = Kij[key[0], key[1]]
-            if 'knll' in lc.loss and (isinstance(lc.loss['knll'].loss, losses.HingeLoss)):
-                Kh = lc.loss['knll'].loss.K
-            elif 'knll' in lc.loss and (hasattr(lc.loss['knll'], 'sigma')):
+            if 'knll' in lc.loss and (hasattr(lc.loss['knll'], 'sigma')):
                 knll = lc.loss['knll']
                 if knll.sigma is None:
                     cdf_left = knll.err_quantile/2.
